@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export const useApiStore = defineStore('api', {
     state: () => ({
+        url: import.meta.env.VITE_API_URL,
     }),
     actions: {
         async get(route) {
@@ -38,7 +39,31 @@ export const useApiStore = defineStore('api', {
                 console.error(error);
                 return false;
             }
-        }
+        },
+
+        async uploadPhoto(route, event) {
+            const file = event.target.files[0]; // Get the file from the input
+
+            // Prepare the file to be sent
+            let formData = new FormData();
+            formData.append('photo', file);
+
+            try {
+                const url = import.meta.env.VITE_API_URL + route;
+                console.log(url);
+                const response = await axios.post(url, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: "Bearer " + localStorage.getItem('token'),
+                    },
+                });
+
+                return response.data;
+            } catch (error) {
+                console.error('Error uploading file', error);
+                return false;
+            }
+        },
 
     }
 })

@@ -7,7 +7,7 @@
         </div>
 
         <!-- Modal -->
-        <div v-if="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div v-if="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-20">
             <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <!-- Close Button -->
                 <div class="flex justify-end">
@@ -81,6 +81,7 @@ const newEmployee = ref({
 
 const createEmployee = () => {
     companyStore.createEmployee(newEmployee.value)
+    showModal.value = false
 }
 
 </script>

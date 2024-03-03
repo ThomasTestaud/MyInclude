@@ -9,6 +9,7 @@ export const useCompanyStore = defineStore('company', {
     company: {
       id: 0,
       name: '',
+      avatar: '',
       email: '',
       address: '',
       phone: '',
@@ -21,6 +22,7 @@ export const useCompanyStore = defineStore('company', {
         const response = await this.api.get('/company')
         if (response) {
           this.companies = response
+          //console.log(response)
         }
       } catch (error) {
         console.error(error)
@@ -31,7 +33,7 @@ export const useCompanyStore = defineStore('company', {
       try {
         const response = await this.api.get('/company/' + id)
         if (response) {
-          console.log(response)
+          //console.log(response)
           this.company = response;
           this.company.employees = response.Users
         }
@@ -62,6 +64,22 @@ export const useCompanyStore = defineStore('company', {
         }
       } catch (error) {
         console.error(error)
+      }
+    },
+
+    async uploadAvatar(event) {
+      try {
+        const route = '/company/avatar/' + this.company.id;
+        const response = await this.api.uploadPhoto(route, event);
+        
+        if (response) {
+          this.company.avatar = response;
+        } else {
+          console.error('Error uploading photo');
+        }
+        
+      } catch (error) {
+        console.error(error);
       }
     }
   }
