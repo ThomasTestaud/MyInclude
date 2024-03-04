@@ -15,12 +15,12 @@
     </div>
     <h3 class="text-lg font-bold mt-4 mb-4">Employés :</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="employee in companyStore.company.employees" :key="employee.id" class="bg-white shadow rounded-lg p-4 flex flex-col items-center">
-        <img :src="'../src/assets/' + employee.avatar" alt="Employee Avatar" class="w-24 h-24 rounded-full mb-4">
+      <button @click="goToEmplyee(employee.id)" v-for="employee in companyStore.company.employees" :key="employee.id" class="bg-white shadow rounded-lg p-4 flex flex-col items-center hover:bg-gray-100 transition-all duration-300">
+        <img :src="apiStore.url + '/public/users/' + employee.avatar" alt="Employee Avatar" class="w-24 h-24 rounded-full mb-4">
         <h4 class="text-xl font-bold mb-2">{{ employee.first_name }} {{ employee.last_name }}</h4>
         <p class="text-gray-600 text-sm mb-1">Email: {{ employee.email }}</p>
         <p class="text-gray-600 text-sm mb-1">Position: {{ employee.position }}</p>
-      </div>
+      </button>
     </div>
 </main>
 
@@ -33,6 +33,9 @@ import { useCompanyStore } from '@/stores/company'
 import CreateEmployee from '../components/companys/CreateEmployee.vue';
 import UploadAvatarCompany from '../components/companys/UploadAvatarCompany.vue';
 import { useApiStore } from '@/stores/api';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const companyStore = useCompanyStore()
 const apiStore = useApiStore()
@@ -40,6 +43,11 @@ const apiStore = useApiStore()
 const props = defineProps({
   id: Number 
 })
+
+const goToEmplyee = (id) => {
+  console.log(id);
+  router.push('/dashboard/' + id);
+}
 
 companyStore.getCompany(props.id);
 </script>
