@@ -14,12 +14,16 @@ export const useDashboardStore = defineStore('dashboard', {
       position: null,
       role: null,
     },
+    relations: [],
   }),
   actions: {
     async getDashboard(userId) {
       this.api.get('/dashboard/' + userId).then((response) => {
         if (response.user) {
           this.user = response.user
+        }
+        if (response.relations) {
+          this.relations = response.relations
         }
         console.log(response)
       })
