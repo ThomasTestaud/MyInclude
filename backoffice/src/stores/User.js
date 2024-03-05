@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import router from '../router'
+import { useApiStore } from '@/stores/api'
+
 
 export const useUserStore = defineStore('user', {
   state: () => ({
+    api: useApiStore(),
     auth: false,
     token: '',
     user: {
@@ -52,7 +55,7 @@ export const useUserStore = defineStore('user', {
           this.auth = true
           this.user = response.data.user
           localStorage.setItem('token', this.token)
-          console.log(response.data)
+          //console.log(response.data)
           return true;
         }
         router.push('/login');
@@ -62,6 +65,9 @@ export const useUserStore = defineStore('user', {
         router.push('/login');
         return false;
       }
+    },
+    async getAllUsers(companyId) {
+      return await this.api.get('/user/all/' + companyId)
     }
   }
 })

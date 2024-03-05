@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <div class="children-list mt-4">
-        <ul class="mt-2 flex" v-for="relation in dashboardStore.relations">
+    <div class="mt-4 flex justify-center">
+        <ul v-if="dashboardStore.relations.length > 0" class="mt-2 flex" v-for="relation in dashboardStore.relations">
             <template v-if="relation" v-for="key in Object.keys(relation)">
                 <button @click="goToEmplyee(relation[key].id)"
                     v-if="relation[key].id !== dashboardStore.user.id"
@@ -37,6 +37,8 @@
                 </button>
             </template>
         </ul>
+        
+        <CreateRelation v-else/>
     </div>
     <!--
 -->
@@ -48,6 +50,7 @@ import { useApiStore } from '../../stores/Api';
 import UploadAvatar from '../UI/UploadAvatar.vue';
 import { useDashboardStore } from '../../stores/Dashboard';
 import { useRouter } from 'vue-router';
+import CreateRelation from './CreateRelation.vue';
 
 const router = useRouter();
 const apiStore = useApiStore();
