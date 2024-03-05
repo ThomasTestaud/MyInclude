@@ -30,33 +30,30 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="position" class="block text-gray-700 text-sm font-bold mb-2">Position</label>
-                        <input v-model="newEmployee.position" type="text" id="position" name="position"
-                            class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
-                    </div>
-
-                    <div class="mb-4">
                         <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
                         <input v-model="newEmployee.email" type="email" id="email" name="email"
                             class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
                     </div>
 
                     <div class="mb-4">
-                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
-                        <input v-model="newEmployee.phone" type="text" id="phone" name="phone"
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Poste</label>
+                        <input v-model="newEmployee.position" type="position" id="position" name="position"
                             class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
                     </div>
 
                     <div class="mb-4">
-                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                        <input v-model="newEmployee.password" type="password" id="password" name="password"
+                        <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role</label>
+                        <select v-model="newEmployee.role_id" id="role" name="role"
                             class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
+                            <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
+                        </select>
                     </div>
 
                     <div class="text-center">
                         <button type="submit"
-                            class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600">Create
-                            Employee</button>
+                            class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600">
+                            Créer l'employer
+                        </button>
                     </div>
                 </form>
             </div>
@@ -64,24 +61,32 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useCompanyStore } from '@/stores/company'
+import { useApiStore } from '@/stores/api'
 
+const apiStore = useApiStore()
 const showModal = ref(false) // Define showModal as a reactive state
 const companyStore = useCompanyStore()
+const roles = ref([])
 
 const newEmployee = ref({
     first_name: '',
     last_name: '',
     position: '',
-    password: '',
     email: '',
     phone: '',
+    role_id: '',
 })
 
 const createEmployee = () => {
     companyStore.createEmployee(newEmployee.value)
     showModal.value = false
 }
+
+apiStore.get('/role').then((response) => {
+    roles.value = response
+})
+
 
 </script>

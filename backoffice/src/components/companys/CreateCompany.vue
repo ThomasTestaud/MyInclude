@@ -5,7 +5,7 @@
   </button>
 
   <div v-if="isFormOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-md shadow-md">
+    <div class="w-10/12 mx-auto bg-white p-6 rounded-md shadow-md">
       <div class="flex justify-end">
         <button @click="closeForm" class="text-gray-400 hover:text-gray-500">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

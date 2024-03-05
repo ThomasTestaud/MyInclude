@@ -25,7 +25,9 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted, watchEffect } from 'vue'
+import { useApiStore } from '../../stores/Api';
 
+const apiStore = useApiStore()
 const edit = ref(false)
 const data = ref("")
 const errorMsg = ref("")
@@ -43,14 +45,9 @@ const update = () => {
     errorMsg.value = ""
     //console.log(data.value)
     //patch method with authorization header
-    axios.patch(import.meta.env.VITE_API_URL + props.route, {
+    apiStore.patch(props.route, {
         [props.object]: data.value,
-    }, {
-        headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-        },
-    })
-        .then((response) => {
+    }).then((response) => {
             console.log(response)
             edit.value = false
             firstData.value = data.value

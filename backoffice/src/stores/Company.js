@@ -57,7 +57,7 @@ export const useCompanyStore = defineStore('company', {
       try {
         data.company_id = this.company.id
         console.log(data)
-        const response = await this.api.post('/user/register', data)
+        const response = await this.api.post('/company/create-employee', data)
         if (response) {
           console.log(response)
           this.company.employees.push(response);

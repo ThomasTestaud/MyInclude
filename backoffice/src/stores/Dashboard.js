@@ -6,24 +6,41 @@ export const useDashboardStore = defineStore('dashboard', {
   state: () => ({
     api: useApiStore(),
     user: {
-      id: 0,
-      first_name: '',
-      last_name: '',
-      email: '',
-      avatar: '',
-      position: '',
-      Role: {
-        name: ''
-      },
+      id: null,
+      first_name: null,
+      last_name: null,
+      email: null,
+      avatar: null,
+      position: null,
+      role: null,
     },
   }),
   actions: {
     async getDashboard(userId) {
       this.api.get('/dashboard/' + userId).then((response) => {
-        this.user = response.user
-        console.log(response.user)
+        if (response.user) {
+          this.user = response.user
+        }
+        console.log(response)
       })
     },
+
+    async updateAvatar(route, event) {
+      const response = await this.api.uploadPhoto(route, event);
+      if (response) {
+        this.user.avatar = response;
+      }
+    },
+
+    verifyUserNotNull() {
+      const values = Object.values(this.user);
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === null) {
+          return false;
+        }
+      }
+      return true;
+    }
 
   }
 })

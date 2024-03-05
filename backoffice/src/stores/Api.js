@@ -41,6 +41,23 @@ export const useApiStore = defineStore('api', {
             }
         },
 
+        async patch(route, data) {
+            try {
+                const response = await axios.patch(import.meta.env.VITE_API_URL + route, data, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem('token'),
+                    },
+                });
+                if (response.status === 200) {
+                    return response.data;
+                }
+                return false;
+            } catch (error) {
+                console.error(error);
+                return false;
+            }
+        },
+
         async uploadPhoto(route, event) {
             const file = event.target.files[0]; // Get the file from the input
 

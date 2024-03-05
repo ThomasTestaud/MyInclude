@@ -1,14 +1,14 @@
 <template>
     <div class="user-info flex">
         <div class="relative mr-6 w-40 h-40 z-10 overflow-hidden rounded-lg ">
-            <img :src="apiStore.url + '/public/users/' + dashboardStore.user.avatar" alt="avatar" class="w-full h-full" />
+            <img :src="apiStore.url + '/public/users/' + dashboardStore.user.avatar" alt="avatar" class="w-full h-full object-cover" />
             <UploadAvatar :route="'/user/avatar/' + dashboardStore.user.id" />
         </div>
         <div class="ml-4">
             <h2 class="text-xl font-bold my-4">{{ dashboardStore.user.first_name }} {{ dashboardStore.user.last_name }}</h2>
-            <p class="text-gray-600"><strong>Profil : </strong>{{ dashboardStore.user.Role.name }}</p>
-            <p class="text-gray-600"><strong>Poste : </strong>{{ dashboardStore.user.position }}</p>
-            <p class="text-gray-600"><strong>Mail : </strong>{{ dashboardStore.user.email }}</p>
+            <p class="text-gray-600"><strong>Profil : </strong>{{ dashboardStore.user.role }}</p>
+            <p class="text-gray-600"><strong>Poste : </strong>{{ dashboardStore.user.position || "Non renseigné"  }}</p>
+            <p class="text-gray-600"><strong>Mail : </strong>{{ dashboardStore.user.email || "Non renseigné" }}</p>
             <p class="text-gray-600"><strong>Début du cursus : </strong>{{ dashboardStore.user.first_day ? formatDate(dashboardStore.user.first_day) : "Non renseigné" }}</p>
         </div>
     </div>

@@ -6,7 +6,16 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     auth: false,
     token: '',
-    user: {}
+    user: {
+      id: 0,
+      first_name: '',
+      last_name: '',
+      email: '',
+      avatar: '',
+      position: '',
+      company_id: 0,
+      role: '',
+    }
   }),
   actions: {
     async login(email, password) {

@@ -24,10 +24,10 @@
 </template>
 
 <script setup>
-import { useApiStore } from '@/stores/api';
+import { useDashboardStore } from '../../stores/Dashboard';
 import { ref } from 'vue';
 
-const apiStore = useApiStore();
+const dashboardStore = useDashboardStore();
 const popup = ref(false);
 const props = defineProps({
     route: String,
@@ -35,6 +35,6 @@ const props = defineProps({
 
 const upload = (event) => {
     popup.value = false;
-    apiStore.uploadPhoto(props.route, event)
+    dashboardStore.updateAvatar(props.route, event)
 }
 </script>
