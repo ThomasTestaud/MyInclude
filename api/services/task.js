@@ -34,16 +34,16 @@ async function getAllTasksOfUser(id) {
             } else if (task.Relation.mentor_id === id) {
                 return {
                     as: 'mentor',
-                    title: task.title_2,
-                    description: task.description_2,
+                    title: task.title_2 ? task.title_2 : task.title_1,
+                    description: task.description_2 ? task.description_2 : task.description_1,
                     doneable: task.doneable,
                     due_date: task.due_date,
                 }
             } else if (task.Relation.captain_id === id) {
                 return {
                     as: 'captain',
-                    title: task.title_3,
-                    description: task.description_3,
+                    title: task.title_3 ? task.title_3 : task.title_2 ? task.title_2 : task.title_1,
+                    description: task.description_3 ? task.description_3 : task.description_2 ? task.description_2 : task.description_1,
                     doneable: task.doneable,
                     due_date: task.due_date,
                 }

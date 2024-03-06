@@ -15,6 +15,7 @@ export const useDashboardStore = defineStore('dashboard', {
       role: null,
     },
     relations: [],
+    tasks: [],
   }),
   actions: {
     async getDashboard(userId) {
@@ -24,6 +25,9 @@ export const useDashboardStore = defineStore('dashboard', {
         }
         if (response.relations) {
           this.relations = response.relations
+        }
+        if (response.tasks) {
+          this.tasks = response.tasks
         }
         console.log(response)
       })

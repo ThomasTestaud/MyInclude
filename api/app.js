@@ -12,6 +12,7 @@ var dashboardRouter = require('./routes/dashboard');
 var companyRouter = require('./routes/company');
 var roleRouter = require('./routes/role');
 var relations = require('./routes/relation');
+var task = require('./routes/task');
 
 var app = express();
 app.use(cors());
@@ -28,6 +29,7 @@ app.use('/dashboard', dashboardRouter);
 app.use('/company', companyRouter);
 app.use('/role', roleRouter);
 app.use('/relations', relations);
+app.use('/task', task);
 
 
   
