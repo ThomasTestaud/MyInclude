@@ -48,7 +48,7 @@ const login = async () => {
     // Login successful
     console.log("Login Successful", userStore.user)
     // Redirect or perform other actions post login
-	router.push(`/`);
+	router.push(`/dashboard/${userStore.user.id}`);
   } else {
     // Handle login failure
     console.log("Login Failed")

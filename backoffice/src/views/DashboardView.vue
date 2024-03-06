@@ -13,7 +13,7 @@
 
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import ProfileCard from '../components/dashboard/profileCard.vue'
 import TasksCard from '../components/dashboard/TasksCard.vue';
 import { useApiStore } from '../stores/Api';
@@ -36,6 +36,12 @@ onMounted(() => {
     console.log(data.value)
   })*/
   dashboardStore.getDashboard(props.id)
+})
+
+watchEffect(() => {
+  if(props.id) {
+    dashboardStore.getDashboard(props.id)
+  }
 })
 
 

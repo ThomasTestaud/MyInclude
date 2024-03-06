@@ -45,6 +45,7 @@ TaskTarget.hasMany(Task, { foreignKey: 'task_target_id' });
 
 Task.belongsTo(GroupTask, { foreignKey: 'group_task_id' });
 GroupTask.hasMany(Task, { foreignKey: 'group_task_id' });
+GroupTask.belongsTo(Company, { foreignKey: 'company_id' });
 
 //Sync
 const roleData = [
@@ -176,6 +177,24 @@ const relations = [
         captain_id: 3,
     },
 ]
+const groupTasks = [
+    {
+        name: "Premier jour",
+        company_id: 1,
+    },
+    {
+        name: "Première semaine",
+        company_id: 1,
+    },
+    {
+        name: "Premier mois",
+        company_id: 1,
+    },
+    {
+        name: "Premier trimestre",
+        company_id: 1,
+    },
+]
 const tasks = [
     {
         title_1: "Café d'accueil",
@@ -218,6 +237,10 @@ sequelizeInstance.sync({ force: true }) // Be cautious with `force: true`
 
             for (const task of tasks) {
                 await sequelizeInstance.models.Task.create(task);
+            }
+
+            for (const groupTask of groupTasks) {
+                await sequelizeInstance.models.GroupTask.create(groupTask);
             }
         })();
 

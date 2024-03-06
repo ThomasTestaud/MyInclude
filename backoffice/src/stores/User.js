@@ -55,7 +55,7 @@ export const useUserStore = defineStore('user', {
           this.auth = true
           this.user = response.data.user
           localStorage.setItem('token', this.token)
-          //console.log(response.data)
+          console.log(response.data)
           return true;
         }
         router.push('/login');

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Task, User, Relation } = require('../models/index.js');
+const { GroupTask, Task, User, Relation } = require('../models/index.js');
 const { Op } = require('sequelize');
 const getAllTasksOfUser = require('../services/task.js');
 const { authenticationMiddleware, isAdmin, isHR, canGetCompany, canPostCompany } = require('../middlewares/authorization.js');
@@ -51,6 +51,30 @@ router.post('/:id', isHR, async (req, res, next) => {
     res.status(500).json({ message: "An error occurred" });
   }
 
+});
+
+router.get('/group/:id', async (req, res, next) => {
+  const company = req.params.id;
+
+  // Verify if the user can get the company
+  if (req.user.dataValues.role !== 'dev' && req.user.dataValues.company_id !== company) {
+    return res.status(401).json("Access denied");
+  }
+
+  // Get the group tasks of the company
+  try {
+    console.log("Company id = " + company)
+    const groupTasks = await GroupTask.findAll({
+      where: {
+        company_id: company
+      }
+    });
+    
+    res.json(groupTasks);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
 });
 
 

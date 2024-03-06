@@ -19,6 +19,12 @@
                 </div>
                 <div>
                     <div>
+                        <label :for="'groupTask'" class="block text-sm font-medium text-gray-700">À quel groupe cette tache apartient-elle ?</label>
+                        <select v-model="groupTaskId" :id="'groupTaskId'" :name="'groupTaskId'" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option v-for="task in groupTask" :value="task.id">{{ task.name }}</option>
+                        </select>
+                    </div>
+                    <div>
                         <label :for="'due_date'" class="block text-sm font-medium text-gray-700">Due Date:</label>
                         <input type="date" v-model="newTask['due_date']" :id="'due_date'" :name="'due_date'" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
@@ -30,13 +36,14 @@
 
                     <div>
                         <label :for="'description_2'" class="block text-sm font-medium text-gray-700">Description à destination du Mentor :</label>
-                        <textarea v-model="newTask['description_2']" :id="'description_2'" :name="'description_2'" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                        <textarea v-model="newTask['description_2']" :id="'description_2'" :name="'description_2'" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                     </div>
 
                     <div>
                         <label :for="'description_3'" class="block text-sm font-medium text-gray-700">Description à destination du Capt'M :</label>
-                        <textarea v-model="newTask['description_3']" :id="'description_3'" :name="'description_3'" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                        <textarea v-model="newTask['description_3']" :id="'description_3'" :name="'description_3'" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                     </div>
+                    
 
                 </div>
 
@@ -51,13 +58,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useDashboardStore } from '../../stores/Dashboard';
 import { useApiStore } from '../../stores/Api';
 
 const dashboardStore = useDashboardStore();
 const apiStore = useApiStore();
 const isFormOpen = ref(false);
+const groupTask = ref([]);
+const groupTaskId = ref(0);
 
 const openForm = () => {
     isFormOpen.value = true;
@@ -85,6 +94,7 @@ const createTask = async () => {
         description_1: newTask.value.description_1,
         description_2: newTask.value.description_2,
         description_3: newTask.value.description_3,
+        group_task_id: groupTaskId.value
     };
     // Add your API call here to create the task
     console.log(task);
@@ -93,4 +103,16 @@ const createTask = async () => {
         dashboardStore.getDashboard(dashboardStore.user.id);
     });
 };
+
+const getGroupTasks = async () => {
+    //console.log(dashboardStore.user.id);
+    apiStore.get('/task/group/' + dashboardStore.user.id).then((response) => {
+        console.log(response);
+        groupTask.value = response;
+    });
+};
+
+onMounted(() => {
+    getGroupTasks();
+});
 </script>
