@@ -197,20 +197,23 @@ const groupTasks = [
 ]
 const tasks = [
     {
-        title_1: "Café d'accueil",
+        title: "Café d'accueil",
         description_1: 'Prendre le café avec les nouveaux arrivants',
         doneable: true,
         due_date: '2024-6-22',
+        done_date: '2024-7-22',
         relation_id: 1,
+        group_task_id: 1,
     },
     {
-        title_1: "Tour de l'entreprise",
+        title: "Tour de l'entreprise",
         description_1: "Visiter l'entreprise avec votre mentor",
         description_2: "Faire faire un tour de l'entreprise aux nouveaux arrivants",
         description_3: "Le tuteur fait faire un tour de l'entreprise aux nouveaux arrivants",
         doneable: true,
         due_date: '2024-6-23',
         relation_id: 1,
+        group_task_id: 1,
     }
 ]
 
@@ -235,13 +238,14 @@ sequelizeInstance.sync({ force: true }) // Be cautious with `force: true`
                 await sequelizeInstance.models.Relation.create(relation);
             }
 
+            for (const groupTask of groupTasks) {
+                await sequelizeInstance.models.GroupTask.create(groupTask);
+            }
+
             for (const task of tasks) {
                 await sequelizeInstance.models.Task.create(task);
             }
 
-            for (const groupTask of groupTasks) {
-                await sequelizeInstance.models.GroupTask.create(groupTask);
-            }
         })();
 
         console.log('DDB populated successfully.');

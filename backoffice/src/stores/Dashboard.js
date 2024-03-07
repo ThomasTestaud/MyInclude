@@ -16,6 +16,7 @@ export const useDashboardStore = defineStore('dashboard', {
     },
     relations: [],
     tasks: [],
+    scores: [],
   }),
   actions: {
     async getDashboard(userId) {
@@ -28,6 +29,9 @@ export const useDashboardStore = defineStore('dashboard', {
         }
         if (response.tasks) {
           this.tasks = response.tasks
+        }
+        if (response.scores) {
+          this.scores = response.scores
         }
         console.log(response)
       })

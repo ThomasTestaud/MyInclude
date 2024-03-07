@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { GroupTask, Task, User, Relation } = require('../models/index.js');
 const { Op } = require('sequelize');
-const getAllTasksOfUser = require('../services/task.js');
+const { getAllTasksOfUser, getGroupTasksScoresOfUser} = require('../services/task.js');
 const { authenticationMiddleware, isAdmin, isHR, canGetCompany, canPostCompany } = require('../middlewares/authorization.js');
 
 router.use(authenticationMiddleware);
@@ -71,6 +71,27 @@ router.get('/group/:id', async (req, res, next) => {
     });
     
     res.json(groupTasks);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+router.get('/group/scores/:id', async (req, res, next) => {
+  const id = req.params.id;
+
+  // Verify if the user can get the scores
+  if (req.user.dataValues.role !== 'dev' && req.user.dataValues.company_id !== id) {
+    return res.status(401).json("Access denied");
+  }
+
+  // Get the group tasks scores of the user
+  try {
+    const scores = await getGroupTasksScoresOfUser(id);
+    if (!scores) {
+      return res.status(500).json({ message: "Error on getting scores" });
+    }
+    res.json(scores);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "An error occurred" });

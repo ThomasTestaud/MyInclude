@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full">
+  <main class="w-full  bg-gray-100 h-screen">
     <div class="mb-6 flex justify-end">
       <CreateCompany />
     </div>

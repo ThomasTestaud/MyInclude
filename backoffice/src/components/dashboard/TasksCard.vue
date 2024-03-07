@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <ul>
-            <li v-for="task in dashboardStore.tasks" class="border rounded-lg mb-2 ">
+    <div class="flex flex-col justify-between h-full">
+        <ul class="h-full border border-gray-300 rounded-lg bg-gray-100 mb-4 pt-1">
+            <li v-for="task in dashboardStore.tasks" class="mx-1 rounded-lg mb-2 bg-white">
                
-                <div class="flex justify-between bg-gray-100 text-sm text-gray-500 px-1 rounded-t-lg"> 
+                <div class="flex justify-between bg-gray-300 text-sm text-gray-500 px-1 rounded-t-lg"> 
                     <p>As: {{ task.as }}</p>
                     <p>
                         {{ formatDate(task.due_date) }}

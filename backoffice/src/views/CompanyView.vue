@@ -1,5 +1,5 @@
 <template>
-  <main class="p-6 w-full">
+  <main class="p-6 w-full bg-gray-100">
     <CreateEmployee />
     <div class="bg-white shadow rounded-lg p-6 mb-6 flex">
       <div class="relative mr-6 w-32 h-32 z-10">

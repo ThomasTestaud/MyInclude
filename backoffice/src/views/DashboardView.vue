@@ -1,11 +1,14 @@
 <template>
-  <main class="flex parent" >
-      <div class="border rounded-lg p-4 div1">
+  <main class="flex parent bg-gray-100" >
+      <div class="rounded-lg p-4 div1 bg-white border border-gray-300">
         <ProfileCard />
       </div>
-      <div class="border rounded-lg p-4 div2">
+      <div class="rounded-lg p-4 div2 bg-white border border-gray-300">
+        <pre>
+          {{ dashboardStore.scores }}
+        </pre>
       </div>
-      <div class="border rounded-lg p-4 div3 overflow-y-auto">
+      <div class="rounded-lg p-4 div3 overflow-y-auto bg-white border border-gray-300">
         <TasksCard />
       </div>
   </main>

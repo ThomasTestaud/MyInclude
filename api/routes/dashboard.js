@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User, Role } = require('../models/index.js');
-const getAllTasksOfUser = require('../services/task.js');
+const { getAllTasksOfUser, getGroupTasksScoresOfUser } = require('../services/task.js');
 const getRelationsOfUser = require('../services/relation.js');
 const getUserData = require('../services/user.js');
 const { authenticationMiddleware, isAdmin, isHR, canGetCompany, canPostCompany  } = require('../middlewares/authorization.js');
@@ -19,6 +19,7 @@ router.get('/:id', async function (req, res, next) {
   const user = await getUserData(id);
   const relations = await getRelationsOfUser(user.id);
   const tasks = await getAllTasksOfUser(user.id);
+  const scores = await getGroupTasksScoresOfUser(user.id);
   
   if (!relations) {
     return res.status(500).json("Error on getting relations");
@@ -31,6 +32,7 @@ router.get('/:id', async function (req, res, next) {
     user: user,
     relations: relations,
     tasks: tasks,
+    scores: scores
   });
   
 });

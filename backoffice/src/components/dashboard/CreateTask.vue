@@ -105,8 +105,8 @@ const createTask = async () => {
 };
 
 const getGroupTasks = async () => {
-    //console.log(dashboardStore.user.id);
-    apiStore.get('/task/group/' + dashboardStore.user.id).then((response) => {
+    console.log(dashboardStore.user.company_id);
+    apiStore.get('/task/group/' + dashboardStore.user.company_id).then((response) => {
         console.log(response);
         groupTask.value = response;
     });

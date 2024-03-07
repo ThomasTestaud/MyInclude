@@ -1,6 +1,6 @@
 <template>
     <div class="user-info flex">
-        <div class="relative mr-6 w-40 h-40 z-10 overflow-hidden rounded-lg ">
+        <div class="relative mr-6 w-40 h-40 z-10 overflow-hidden rounded-full m-2">
             <img :src="apiStore.url + '/public/users/' + dashboardStore.user.avatar" alt="avatar"
                 class="w-full h-full object-cover" />
             <UploadAvatar :route="'/user/avatar/' + dashboardStore.user.id" />
@@ -17,15 +17,15 @@
         </div>
     </div>
 
-    <div class="mt-4 flex justify-center">
+    <div class="mt-4 flex overflow-x-auto">
         <ul v-if="dashboardStore.relations.length > 0" class="mt-2 flex" v-for="relation in dashboardStore.relations">
             <template v-if="relation" v-for="key in Object.keys(relation)">
                 <button @click="goToEmplyee(relation[key].id)"
                     v-if="relation[key].id !== dashboardStore.user.id"
-                    class="text-gray-600 border rounded-lg p-2 w-6/12 mr-2">
+                    class="text-gray-600 border rounded-lg p-2 w-60 mr-2">
                     <li class="flex">
                         <img :src="apiStore.url + '/public/users/' + relation[key].avatar" alt="avatar"
-                            class="rounded-lg w-20 h-20" />
+                            class="rounded-full w-20 h-20 object-cover" />
                         <div class="ml-4">
                             <h4 class="font-semibold py-2">
                                 {{ relation[key].first_name }} {{ relation[key].last_name }}
