@@ -22,7 +22,7 @@ async function getAllTasksOfUser(id) {
 
         });
 
-        tasks = tasks.map(task => {
+        tasks = tasks.filter(task => task.done_date === null).map(task => {
             if (task.Relation.associate_id === id) {
                 return {
                     as: 'associate',
@@ -79,12 +79,13 @@ async function getGroupTasksScoresOfUser(id) {
                 [Task, 'due_date', 'ASC']
             ]
         });
-        console.log(groupTasks);
+        //console.log(groupTasks);
         groupTasks = groupTasks.filter(groupTask => groupTask.Tasks && groupTask.Tasks.length > 0);
 
         let scores = [];
         for (let groupTask of groupTasks) {
             scores.push({
+                name: groupTask.name,
                 done_tasks: 0,
                 total_tasks: groupTask.Tasks && groupTask.Tasks.length ? groupTask.Tasks.length : 0,
             });
@@ -94,7 +95,7 @@ async function getGroupTasksScoresOfUser(id) {
                 }
             }
         }
-        console.log(scores);
+        //console.log(scores);
         return scores;
     } catch (error) {
         console.log(error);
