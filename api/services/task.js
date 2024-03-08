@@ -1,56 +1,48 @@
-const { Relation, Task, GroupTask } = require('../models');
+const { Relation, Task, TaskToRelation, GroupTask } = require('../models');
 const { Op } = require('sequelize');
 
 async function getAllTasksOfUser(id) {
     try {
-        let tasks = await Task.findAll({
+        let tasks = await Relation.findAll({
+            where: {
+                [Op.or]: [
+                    { associate_id: id },
+                    { mentor_id: id },
+                    { captain_id: id }
+                ]
+            },
             include: [
                 {
-                    model: Relation,
-                    where: {
-                        [Op.or]: [
-                            { associate_id: id },
-                            { mentor_id: id },
-                            { captain_id: id }
-                        ]
-                    }
+                    model: TaskToRelation,
+                    include: [
+                        {
+                            model: Task,
+                        }
+                    ]
                 }
             ],
+            
             order: [
-                ['due_date', 'ASC']
+                [TaskToRelation, 'due_date', 'ASC']
             ]
 
         });
 
-        tasks = tasks.filter(task => task.done_date === null).map(task => {
-            if (task.Relation.associate_id === id) {
+        tasks = tasks.map(relation => {
+            return relation.TaskToRelations.map(taskToRelation => {
                 return {
-                    as: 'associate',
-                    title: task.title,
-                    description: task.description_1,
-                    doneable: task.doneable,
-                    due_date: task.due_date,
+                    as: relation.associate_id === id ? 'associate' : relation.mentor_id === id ? 'mentor' : 'captain',
+                    title: taskToRelation.Task.title,
+                    description: taskToRelation.Task.description_3 ? taskToRelation.Task.description_3 : taskToRelation.Task.description_2 ? taskToRelation.Task.description_2 : taskToRelation.Task.description_1,
+                    //doneable: taskToRelation.done_date === null,
+                    due_date: taskToRelation.due_date,
+                    done_date: taskToRelation.done_date
                 }
-            } else if (task.Relation.mentor_id === id) {
-                return {
-                    as: 'mentor',
-                    title: task.title,
-                    description: task.description_2 ? task.description_2 : task.description_1,
-                    doneable: task.doneable,
-                    due_date: task.due_date,
-                }
-            } else if (task.Relation.captain_id === id) {
-                return {
-                    as: 'captain',
-                    title: task.title,
-                    description: task.description_3 ? task.description_3 : task.description_2 ? task.description_2 : task.description_1,
-                    doneable: task.doneable,
-                    due_date: task.due_date,
-                }
-            }
-        });
+            })
+        }).flat();
 
         return tasks;
+
     } catch (error) {
         console.log(error);
         return false;
@@ -65,19 +57,25 @@ async function getGroupTasksScoresOfUser(id) {
                     model: Task,
                     include: [
                         {
-                            model: Relation,
-                            where: {
-                                [Op.or]: [
-                                    { associate_id: id },
-                                ]
-                            }
+                            model: TaskToRelation,
+                            include: [
+                                {
+                                    model: Relation,
+                                    where: {
+                                        [Op.or]: [
+                                            { associate_id: id },
+                                        ]
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
             ],
+            /*
             order: [
-                [Task, 'due_date', 'ASC']
-            ]
+                [TaskToRelation, 'due_date', 'ASC']
+            ]*/
         });
         //console.log(groupTasks);
         groupTasks = groupTasks.filter(groupTask => groupTask.Tasks && groupTask.Tasks.length > 0);
@@ -90,13 +88,15 @@ async function getGroupTasksScoresOfUser(id) {
                 total_tasks: groupTask.Tasks && groupTask.Tasks.length ? groupTask.Tasks.length : 0,
             });
             for (let task of groupTask.Tasks) {
-                if (task.done_date != null) {
+                console.log(task.TaskToRelations[0].done_date);
+                if (task.TaskToRelations[0].done_date != null) {
                     scores[scores.length - 1].done_tasks++;
                 }
             }
         }
         //console.log(scores);
         return scores;
+
     } catch (error) {
         console.log(error);
         return false;

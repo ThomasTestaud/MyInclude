@@ -15,14 +15,14 @@
                 </div>
             </li>
         </ul>
-        <CreateTask />
+        <AssignTask />
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useDashboardStore } from '../../stores/Dashboard';
-import CreateTask from './CreateTask.vue';
+import AssignTask from './AssignTask.vue';
 
 
 const dashboardStore = useDashboardStore();
@@ -40,3 +40,4 @@ const props = defineProps({
 });
 </script>
 
+./AssignTask.vue

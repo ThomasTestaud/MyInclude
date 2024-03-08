@@ -21,18 +21,12 @@ export const useDashboardStore = defineStore('dashboard', {
   actions: {
     async getDashboard(userId) {
       this.api.get('/dashboard/' + userId).then((response) => {
-        if (response.user) {
-          this.user = response.user
-        }
-        if (response.relations) {
-          this.relations = response.relations
-        }
-        if (response.tasks) {
-          this.tasks = response.tasks
-        }
-        if (response.scores) {
-          this.scores = response.scores
-        }
+        
+        response.user ? this.user = response.user : this.user = this.user;
+        response.relations ? this.relations = response.relations : this.relations = [];
+        response.tasks ? this.tasks = response.tasks.filter(task => task.done_date === null) : this.tasks = [];
+        response.scores ? this.scores = response.scores : this.scores = [];
+        
         console.log(response)
       })
     },

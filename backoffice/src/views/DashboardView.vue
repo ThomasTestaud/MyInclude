@@ -3,10 +3,8 @@
       <div class="rounded-lg p-4 div1 bg-white border border-gray-300">
         <ProfileCard />
       </div>
-      <div class="rounded-lg p-4 div2 bg-white border border-gray-300">
-        <pre>
-          {{ dashboardStore.scores }}
-        </pre>
+      <div class="rounded-lg p-4 div2 bg-white border border-gray-300 flex items-center">
+        <ProgressCardVue />
       </div>
       <div class="rounded-lg p-4 div3 overflow-y-auto bg-white border border-gray-300">
         <TasksCard />
@@ -19,6 +17,7 @@ import axios from 'axios'
 import { ref, onMounted, watchEffect } from 'vue'
 import ProfileCard from '../components/dashboard/profileCard.vue'
 import TasksCard from '../components/dashboard/TasksCard.vue';
+import ProgressCardVue from '../components/dashboard/ProgressCard.vue';
 import { useApiStore } from '../stores/Api';
 import { useDashboardStore } from '../stores/Dashboard';
 

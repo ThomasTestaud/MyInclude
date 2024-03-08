@@ -2,15 +2,19 @@ const { DataTypes } = require('sequelize');
 const sequelizeInstance = require('./_model.js');
 
 
-const TaskTarget = sequelizeInstance.define('TaskTarget', {
+const TaskToRelation = sequelizeInstance.define('TaskToRelation', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    name: {
-        type: DataTypes.STRING(30),
+    due_date: {
+        type: DataTypes.DATE,
         allowNull: false,
+    },
+    done_date: {
+        type: DataTypes.DATE,
+        allowNull: true,
     },
 }, {
     indexes: [
@@ -18,4 +22,4 @@ const TaskTarget = sequelizeInstance.define('TaskTarget', {
 });
 
 
-module.exports = TaskTarget;
+module.exports = TaskToRelation;

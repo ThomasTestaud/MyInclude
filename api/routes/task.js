@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { GroupTask, Task, User, Relation } = require('../models/index.js');
 const { Op } = require('sequelize');
-const { getAllTasksOfUser, getGroupTasksScoresOfUser} = require('../services/task.js');
+const { getAllTasksOfUser, getGroupTasksScoresOfUser } = require('../services/task.js');
 const { authenticationMiddleware, isAdmin, isHR, canGetCompany, canPostCompany } = require('../middlewares/authorization.js');
 
 router.use(authenticationMiddleware);
@@ -69,7 +69,7 @@ router.get('/group/:id', async (req, res, next) => {
         company_id: company
       }
     });
-    
+
     res.json(groupTasks);
   } catch (error) {
     console.log(error);
@@ -98,7 +98,110 @@ router.get('/group/scores/:id', async (req, res, next) => {
   }
 });
 
+router.get('/company/:id', canGetCompany, async (req, res, next) => {
+  const company = req.params.id;
 
+  // Get all tasks of the company
+  try {
+    const data = await GroupTask.findAll({
+      where: {
+        company_id: company
+      },
+      include: [
+        {
+          model: Task,
+        }
+      ]
+    });
+
+    const tasks = [];
+    for (let groupTask of data) {
+      for (let task of groupTask.Tasks) {
+        tasks.push({
+          id: task.id,
+          title: task.title,
+          description_1: task.description_1,
+          description_2: task.description_2,
+          description_3: task.description_3,
+          groupName: groupTask.name,
+          groupId: groupTask.id
+        });
+      }
+    }
+    const groupTasks = data.map(groupTask => {
+      return {
+        id: groupTask.id,
+        name: groupTask.name
+      }
+    });
+
+    res.json({
+      groupTasks,
+      tasks
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+router.post('/', canPostCompany, async (req, res, next) => {
+  const data = req.body;
+
+  // DO SECURITY HERE
+
+  // Create a new task
+  try {
+    const task = await Task.create(data);
+    if (!task) {
+      return res.status(500).json({ message: "Error on creating task" });
+    }
+    res.json(task);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+router.post('/assign', isHR, async (req, res, next) => {
+  const data = req.body;
+
+  // DO SECURITY HERE
+
+  // Assign a task to a user
+  try {
+    const tasks = await Task.findAll({
+      where: {
+        id: {
+          [Op.in]: data.task_id
+        }
+      }
+    });
+
+    if (!tasks.length) {
+      return res.status(404).json({ message: "Tasks not found" });
+    }
+
+    const relation = await Relation.findOne({
+      where: {
+        associate_id: data.user_id
+      }
+    });
+
+    if (!relation) {
+      return res.status(404).json({ message: "Relation not found" });
+    }
+
+    const taskToRelation = await Promise.all(tasks.map(task => task.addRelation(relation, { through: { due_date: data.due_date } })));
+    if (!taskToRelation) {
+      return res.status(500).json({ message: "Error on assigning tasks" });
+    }
+    res.json(taskToRelation);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
 
 
 module.exports = router;

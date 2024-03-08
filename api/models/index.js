@@ -6,8 +6,8 @@ const Resource = require('./resource.js');
 const Icon = require('./icon.js');
 const Task = require('./task.js');
 const GroupTask = require('./groupTask.js');
-const TaskTarget = require('./taskTarget.js');
 const Relation = require('./relation.js');
+const TaskToRelation = require('./taskToRelation.js');
 
 //Relations
 // Associate associate_id in Relation with User
@@ -37,11 +37,12 @@ Role.hasMany(Resource, { foreignKey: 'role_id' });
 Resource.belongsTo(Icon, { foreignKey: 'icon_id' });
 Icon.hasMany(Resource, { foreignKey: 'icon_id' });
 
-Task.belongsTo(Relation, { foreignKey: 'relation_id' });
-Relation.hasMany(Task, { foreignKey: 'relation_id' });
+TaskToRelation.belongsTo(Task, { foreignKey: 'task_id' });
+Task.hasMany(TaskToRelation, { foreignKey: 'task_id' });
 
-Task.belongsTo(TaskTarget, { foreignKey: 'task_target_id' });
-TaskTarget.hasMany(Task, { foreignKey: 'task_target_id' });
+TaskToRelation.belongsTo(Relation, { foreignKey: 'relation_id' });
+Relation.hasMany(TaskToRelation, { foreignKey: 'relation_id' });
+
 
 Task.belongsTo(GroupTask, { foreignKey: 'group_task_id' });
 GroupTask.hasMany(Task, { foreignKey: 'group_task_id' });
@@ -202,7 +203,6 @@ const tasks = [
         doneable: true,
         due_date: '2024-6-22',
         done_date: '2024-7-22',
-        relation_id: 1,
         group_task_id: 1,
     },
     {
@@ -213,7 +213,6 @@ const tasks = [
         doneable: true,
         due_date: '2024-6-23',
         done_date: '2024-7-22',
-        relation_id: 1,
         group_task_id: 1,
     },
     {
@@ -224,7 +223,6 @@ const tasks = [
         doneable: true,
         due_date: '2024-6-24',
         done_date: '2024-7-24',
-        relation_id: 1,
         group_task_id: 2,
     },
     {
@@ -234,7 +232,6 @@ const tasks = [
         description_3: "Le tuteur fait présenter le projet aux nouveaux arrivants",
         doneable: true,
         due_date: '2024-6-25',
-        relation_id: 1,
         group_task_id: 2,
     },
     {
@@ -245,40 +242,42 @@ const tasks = [
         doneable: true,
         due_date: '2024-6-26',
         done_date: '2024-7-22',
-        relation_id: 1,
         group_task_id: 3,
-    },
-    {
-        title: "Présentation des locaux",
-        description_1: "Présenter les locaux aux nouveaux arrivants",
-        description_2: "Faire présenter les locaux aux nouveaux arrivants",
-        description_3: "Le tuteur fait présenter les locaux aux nouveaux arrivants",
-        doneable: true,
-        due_date: '2024-6-27',
-        relation_id: 1,
-        group_task_id: 3,
-    },
-    {
-        title: "Présentation des procédures",
-        description_1: "Présenter les procédures aux nouveaux arrivants",
-        description_2: "Faire présenter les procédures aux nouveaux arrivants",
-        description_3: "Le tuteur fait présenter les procédures aux nouveaux arrivants",
-        doneable: true,
-        due_date: '2024-6-28',
-        relation_id: 1,
-        group_task_id: 4,
-    },
-    {
-        title: "Présentation des projets",
-        description_1: "Présenter les projets aux nouveaux arrivants",
-        description_2: "Faire présenter les projets aux nouveaux arrivants",
-        description_3: "Le tuteur fait présenter les projets aux nouveaux arrivants",
-        doneable: true,
-        due_date: '2024-6-29',
-        relation_id: 1,
-        group_task_id: 4,
     },
 ]
+
+const taskToRelation = [
+    {
+        due_date: '2024-6-22',
+        done_date: '2024-7-22',
+        relation_id: 1,
+        task_id: 1,
+    },
+    {
+        due_date: '2024-6-23',
+        done_date: '2024-7-22',
+        relation_id: 1,
+        task_id: 2,
+    },
+    {
+        due_date: '2024-6-24',
+        done_date: '2024-7-24',
+        relation_id: 1,
+        task_id: 3,
+    },
+    {
+        due_date: '2024-6-25',
+        relation_id: 1,
+        task_id: 4,
+    },
+    {
+        due_date: '2024-6-26',
+        done_date: '2024-7-22',
+        relation_id: 1,
+        task_id: 5,
+    },
+] 
+
 
 sequelizeInstance.sync({ force: true }) // Be cautious with `force: true`
     .then(() => {
@@ -309,6 +308,10 @@ sequelizeInstance.sync({ force: true }) // Be cautious with `force: true`
                 await sequelizeInstance.models.Task.create(task);
             }
 
+            for (const task of taskToRelation) {
+                await sequelizeInstance.models.TaskToRelation.create(task);
+            }
+
         })();
 
         console.log('DDB populated successfully.');
@@ -329,4 +332,5 @@ module.exports = {
     Task,
     GroupTask,
     Relation,
+    TaskToRelation,
 };

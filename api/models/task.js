@@ -24,14 +24,6 @@ const Task = sequelizeInstance.define('Task', {
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    due_date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
-    done_date: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
 }, {
     indexes: [
     ]

@@ -26,10 +26,18 @@
               Ma Boite
             </p>
           </RouterLink>
-          <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/objectifs">
+          <!--
+            <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/objectifs">
+              <i class="fa-solid fa-check text-4xl"></i>
+              <p>
+                Objectifs
+              </p>
+            </RouterLink>
+          -->
+          <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" :to="'/company/tasks/' + userStore.user.company_id">
             <i class="fa-solid fa-check text-4xl"></i>
             <p>
-              Objectifs
+              Tâches
             </p>
           </RouterLink>
           <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/liens">
