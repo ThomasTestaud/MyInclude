@@ -183,7 +183,6 @@ router.post('/assign/:id', isHR, async (req, res, next) => {
       return res.status(404).json({ message: "Tasks not found" });
     }
 
-    console.log("relation id : " + userId)
     const relation = await Relation.findOne({
       where: {
         associate_id: userId
