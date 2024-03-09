@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { GroupTask, Task, User, Relation } = require('../models/index.js');
+const { GroupTask, Task, User, Relation, TaskToRelation } = require('../models/index.js');
 const { Op } = require('sequelize');
 const { getAllTasksOfUser, getGroupTasksScoresOfUser } = require('../services/task.js');
 const { authenticationMiddleware, isAdmin, isHR, canGetCompany, canPostCompany } = require('../middlewares/authorization.js');
@@ -163,8 +163,9 @@ router.post('/', canPostCompany, async (req, res, next) => {
   }
 });
 
-router.post('/assign', isHR, async (req, res, next) => {
+router.post('/assign/:id', isHR, async (req, res, next) => {
   const data = req.body;
+  const userId = req.params.id;
 
   // DO SECURITY HERE
 
@@ -182,9 +183,10 @@ router.post('/assign', isHR, async (req, res, next) => {
       return res.status(404).json({ message: "Tasks not found" });
     }
 
+    console.log("relation id : " + userId)
     const relation = await Relation.findOne({
       where: {
-        associate_id: data.user_id
+        associate_id: userId
       }
     });
 
@@ -192,7 +194,16 @@ router.post('/assign', isHR, async (req, res, next) => {
       return res.status(404).json({ message: "Relation not found" });
     }
 
-    const taskToRelation = await Promise.all(tasks.map(task => task.addRelation(relation, { through: { due_date: data.due_date } })));
+    const taskToRelation = await Promise.all(tasks.map(task => {
+      const newTaskToRelation = {
+        task_id: task.id,
+        relation_id: relation.id,
+        due_date: data.due_date
+      };
+
+      return TaskToRelation.create(newTaskToRelation);
+    
+    }));
     if (!taskToRelation) {
       return res.status(500).json({ message: "Error on assigning tasks" });
     }

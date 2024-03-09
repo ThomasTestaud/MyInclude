@@ -68,11 +68,10 @@ onMounted(() => {
 const sendForm = async () => {
     const object = {
         task_id: chosenTask.value.map(task => task.id),
-        user_id: dashboardStore.user.id,
         due_date: dueDate.value
     };
     console.log(object);
-    const response = await apiStore.post('/task/assign', object);
+    const response = await apiStore.post('/task/assign/' + dashboardStore.user.id, object);
     
     console.log(response);
     closeForm();
