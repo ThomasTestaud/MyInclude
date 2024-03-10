@@ -26,14 +26,6 @@
               Ma Boite
             </p>
           </RouterLink>
-          <!--
-            <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/objectifs">
-              <i class="fa-solid fa-check text-4xl"></i>
-              <p>
-                Objectifs
-              </p>
-            </RouterLink>
-          -->
           <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" :to="'/company/tasks/' + userStore.user.company_id">
             <i class="fa-solid fa-check text-4xl"></i>
             <p>
@@ -43,25 +35,16 @@
           <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/liens">
             <i class="fa-solid fa-link text-4xl"></i>
             <p>
-              Liens
+              Ressources
             </p>
           </RouterLink>
 
           <hr>
-          <h2 class="my-4">
-
-            /BACKOFFICE/
-          </h2>
+          
           <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/">
-            <i class="fa-solid fa-building text-4xl"></i>
+            <i class="fa-solid fa-city text-4xl"></i>
             <p>
               Entreprises
-            </p>
-          </RouterLink>
-          <RouterLink class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg m-1 p-2 flex flex-col items-center" to="/liens">
-            <i class="fa-solid fa-link text-4xl"></i>
-            <p>
-              Ressources
             </p>
           </RouterLink>
         </nav>

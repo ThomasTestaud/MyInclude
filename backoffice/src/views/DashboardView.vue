@@ -1,66 +1,67 @@
 <template>
-  <main class="flex parent bg-gray-100" >
-      <div class="rounded-lg p-4 div1 bg-white border border-gray-300">
-        <ProfileCard />
-      </div>
-      <div class="rounded-lg p-4 div2 bg-white border border-gray-300 flex items-center">
-        <ProgressCardVue />
-      </div>
-      <div class="rounded-lg p-4 div3 overflow-y-auto bg-white border border-gray-300">
-        <TasksCard />
-      </div>
+  <div v-if="dashboardStore.loading" class="text-lg text-center">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <main v-else class="flex parent bg-gray-100">
+    <div class="rounded-lg p-4 div1 bg-white border border-gray-300">
+      <ProfileCard />
+    </div>
+    <div
+      class="rounded-lg p-4 div2 bg-white border border-gray-300 flex items-center"
+    >
+      <ProgressCardVue />
+    </div>
+    <div
+      class="rounded-lg p-4 div3 overflow-y-auto bg-white border border-gray-300"
+    >
+      <TasksCard />
+    </div>
   </main>
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, onMounted, watchEffect } from 'vue'
-import ProfileCard from '../components/dashboard/profileCard.vue'
-import TasksCard from '../components/dashboard/TasksCard.vue';
-import ProgressCardVue from '../components/dashboard/ProgressCard.vue';
-import { useApiStore } from '../stores/Api';
-import { useDashboardStore } from '../stores/Dashboard';
+import axios from "axios";
+import { ref, onMounted, watchEffect, onBeforeUnmount } from "vue";
+import ProfileCard from "../components/dashboard/profileCard.vue";
+import TasksCard from "../components/dashboard/TasksCard.vue";
+import ProgressCardVue from "../components/dashboard/ProgressCard.vue";
+import { useApiStore } from "../stores/Api";
+import { useDashboardStore } from "../stores/Dashboard";
 
-
-const data = ref(null)
-const apiStore = useApiStore()
-const dashboardStore = useDashboardStore()
+const data = ref(null);
+const apiStore = useApiStore();
+const dashboardStore = useDashboardStore();
 const props = defineProps({
-  id: Number 
-})
-
-
-onMounted(() => {
-  /*
-  apiStore.get('/dashboard/' + props.id).then((response) => {
-    console.log(props.id)
-    data.value = response
-    console.log(data.value)
-  })*/
-  dashboardStore.getDashboard(props.id)
-})
+  id: Number,
+});
 
 watchEffect(() => {
-  if(props.id) {
-    dashboardStore.getDashboard(props.id)
+  if (props.id) {
+    dashboardStore.getDashboard(props.id);
   }
-})
+});
 
-
+onBeforeUnmount(() => {
+  dashboardStore.loading = true;
+});
 </script>
-
 
 <style scoped>
 .parent {
-display: grid;
-grid-template-columns: repeat(6, 1fr);
-grid-template-rows: repeat(6, 1fr);
-grid-column-gap: 10px;
-grid-row-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
 }
 
-.div1 { grid-area: 1 / 1 / 4 / 5; }
-.div2 { grid-area: 4 / 1 / 6 / 5; }
-.div3 { grid-area: 1 / 5 / 6 / 7; }
-
+.div1 {
+  grid-area: 1 / 1 / 4 / 5;
+}
+.div2 {
+  grid-area: 4 / 1 / 6 / 5;
+}
+.div3 {
+  grid-area: 1 / 5 / 6 / 7;
+}
 </style>

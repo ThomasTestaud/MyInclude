@@ -2,11 +2,12 @@
   <div class="flex flex-col w-full">
     <div class="pt-8"></div>
 
-    <UserData />
     <Logout />
+    <!--
+      <UserData />
     <ChangePassword />
     <DeleteAccount />
-
+    -->
     <div class="p-8"></div>
 
   </div>

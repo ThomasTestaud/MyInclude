@@ -80,6 +80,10 @@ async function getGroupTasksScoresOfUser(id) {
         //console.log(groupTasks);
         groupTasks = groupTasks.filter(groupTask => groupTask.Tasks && groupTask.Tasks.length > 0);
 
+        if (!groupTasks) {
+            return false;
+        }
+
         let scores = [];
         for (let groupTask of groupTasks) {
             scores.push({
@@ -88,7 +92,7 @@ async function getGroupTasksScoresOfUser(id) {
                 total_tasks: groupTask.Tasks && groupTask.Tasks.length ? groupTask.Tasks.length : 0,
             });
             for (let task of groupTask.Tasks) {
-                console.log(task.TaskToRelations[0].done_date);
+                //console.log(task.TaskToRelations[0]);
                 if (task.TaskToRelations[0].done_date != null) {
                     scores[scores.length - 1].done_tasks++;
                 }

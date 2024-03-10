@@ -5,6 +5,7 @@ import { useApiStore } from '@/stores/api'
 export const useCompanyStore = defineStore('company', {
   state: () => ({
     api: useApiStore(),
+    loading: true,
     companies: [],
     company: {
       id: 0,
@@ -30,12 +31,15 @@ export const useCompanyStore = defineStore('company', {
     },
 
     async getCompany(id) {
+      
       try {
         const response = await this.api.get('/company/' + id)
         if (response) {
           //console.log(response)
           this.company = response;
           this.company.employees = response.Users
+
+          this.loading = false;
         }
       } catch (error) {
         console.error(error)

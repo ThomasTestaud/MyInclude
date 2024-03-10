@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import { useDashboardStore } from '../../stores/Dashboard';
 import { useApiStore } from '../../stores/Api';
 
@@ -56,13 +56,15 @@ const closeForm = () => {
 }
 
 const getGroupTasks = async () => {
-  const repsonse = await apiStore.get('/task/company/' + dashboardStore.user.id);
-  console.log(repsonse)
+  const repsonse = await apiStore.get('/task/company/' + dashboardStore.user.company_id);
+  //console.log(repsonse)
   data.value = repsonse.tasks
 }
 
-onMounted(() => {
-  getGroupTasks()
+watchEffect(() => {
+    if(dashboardStore.user.company_id) {
+        getGroupTasks()
+    }
 })
 
 const sendForm = async () => {
@@ -72,8 +74,9 @@ const sendForm = async () => {
     };
     console.log(object);
     const response = await apiStore.post('/task/assign/' + dashboardStore.user.id, object);
+    dashboardStore.getDashboard(dashboardStore.user.id);
     
-    console.log(response);
+    //console.log(response);
     closeForm();
 }
 
