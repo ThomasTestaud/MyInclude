@@ -1,5 +1,5 @@
 <template>
-    <button @click="openForm" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <button @click="openForm" class="btn-1">
         Assigner une tache à cet employé
     </button>
 
@@ -26,7 +26,7 @@
 
 
                 <div>
-                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="submit" class="btn-1">
                         Assigner la tâche
                     </button>
                 </div>

@@ -1,9 +1,13 @@
 <template>
-    <div class="flex flex-col px-6 container">
+    <div class="flex flex-col px-6 container card">
         <h2>Mes prochaines tâches</h2>
         <ul class="scroll">
-            <li v-for="task in dashboardStore.tasks">
-                <div>
+            <li v-for="task in props.tasks">
+                <div class="w-1/12">
+                    <input type="checkbox" v-if="task.done_date" checked/>
+                    <input type="checkbox" v-else/>
+                </div>
+                <div class="w-9/12">
                     <h3>{{ task.title }}</h3>
                     <p>{{ task.description }}</p>
                 </div>
@@ -12,25 +16,17 @@
                     <!--
                             <p>As: {{ task.as }}</p>
                         -->
-                    <p class="date">
+                    <p class="date w-2/12">
                         {{ formatDate(task.due_date) }}
                     </p>
                 </div>
             </li>
         </ul>
-        <div class="flex justify-center">
-            <AssignTask />
-        </div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { useDashboardStore } from '../../stores/Dashboard';
-import AssignTask from './AssignTask.vue';
-
-
-const dashboardStore = useDashboardStore();
 
 const formatDate = (date) => {
     const options = { weekday: 'long', day: '2-digit', month: '2-digit' };
@@ -38,11 +34,9 @@ const formatDate = (date) => {
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1).toLowerCase();
 };
 
-
-
 const props = defineProps({
-    data: {
-        type: Object,
+    tasks: {
+        type: Array,
         required: true
     }
 });
@@ -55,7 +49,7 @@ const props = defineProps({
 }
 
 .container {
-    max-height: 55vh;
+    /*max-height: 55vh;*/
 }
 
 h2 {

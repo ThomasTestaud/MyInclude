@@ -1,15 +1,15 @@
 <template>
-  <main class="w-full  bg-gray-100 h-screen">
+  <main class="w-full">
     <div class="mb-6 flex justify-end">
       <CreateCompany />
     </div>
     <div class="text-center">
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <button v-for="company in companyStore.companies" @click="goToCompany(company.id)"
-          class="bg-white shadow rounded-lg p-4 flex flex-col items-center hover:bg-gray-100 transiotion-all duration-300">
+          class="flex flex-col items-center card p-4">
           <img :src="apiStore.url + '/public/companies/' + company.avatar" alt="company Avatar"
-            class="w-24 h-24 rounded-full mb-4">
+            class="w-[100px] h-[100px] rounded-full mb-4">
           <h4 class="text-xl font-bold mb-2">{{ company.name }}</h4>
         </button>
       </div>

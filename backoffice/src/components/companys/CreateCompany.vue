@@ -1,11 +1,11 @@
 <template>
   <button @click="openForm"
-    class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    class="btn-1">
     Créer une nouvelle entreprise
   </button>
 
   <div v-if="isFormOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="w-10/12 mx-auto bg-white p-6 rounded-md shadow-md">
+    <div class="w-10/12 mx-auto relative top-[0px] shadow-lg card m-auto p-5">
       <div class="flex justify-end">
         <button @click="closeForm" class="text-gray-400 hover:text-gray-500">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,7 +40,7 @@
 
         <div>
           <button type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            class="btn-1">
             Créer l'entreprise
           </button>
         </div>

@@ -28,6 +28,11 @@ const router = createRouter({
       component: () => import('../views/CompanyView.vue'),
     },
     {
+      path: '/objectifs',
+      name: 'objectifs',
+      component: () => import('../views/ObjectifView.vue'),
+    },
+    {
       path: '/liens',
       name: 'liens',
       component: () => import('../views/LinksView.vue'),

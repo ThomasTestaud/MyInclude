@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'NewZen';
+    src: url('./new-zen-font/New Zen Medium.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hobeaux';
+    src: url('./Hobeaux-Regular-1.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Recoleta';
+    src: url('./New_Spirit_Medium.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --main-bg-color: #FBF9F2;
+    --secondary-bg-color: #ffffff;
+    --third-bg-color: #DC816C;
+    --main-text-color: #BD644B;
+    --secondary-text-color: #FCAE41;
+    --black: rgb(40, 40, 40);
+    --white: rgb(249, 248, 241);
+}
+
+html {
+    font-size: 14px;
+    font-family: 'NewZen', sans-serif;
+}
+
+body {
+    background-color: white;
+    color: var(--main-text-color);
+}
+
+h1, h2, h3, h4, h5, h6, nav {
+    font-family: 'Hobeaux', sans-serif;
+    color: var(--main-text-color);
+}
+
+.card {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    /*padding: 1rem 1rem;*/
+    border-radius: 2rem;
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+}
+
+.btn-1 {
+    background-color: var(--third-bg-color);
+    color: var(--main-bg-color);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.3s all;
+    font-family: Recoleta, sans-serif;
+}

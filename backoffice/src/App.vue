@@ -1,6 +1,5 @@
 <script setup>
 import Header from './components/Header.vue'
-import Aside from './components/Aside.vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import router from './router'
 import axios from 'axios'
@@ -19,8 +18,8 @@ router.beforeEach((to, from, next) => {
 
 <template>
     <Header v-if="!$route.path.includes('/login')" />
-    <div class="flex w-full">
-      <Aside v-if="!$route.path.includes('/login')" class="" />
+    <div class="flex  w-11/12 m-auto">
       <RouterView class="p-6 w-full" />
     </div>
 </template>
+
