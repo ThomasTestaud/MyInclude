@@ -84,7 +84,7 @@ router.get('/refresh-token', async function (req, res, next) {
 });
 
 
-router.get('/all/:id', isAdmin, async function (req, res, next) {
+router.get('/all/:id', async function (req, res, next) {
   const id = req.params.id;
   try {
     const users = await User.findAll({
@@ -110,6 +110,7 @@ router.get('/all/:id', isAdmin, async function (req, res, next) {
 
 router.post('/avatar/:id', async function (req, res, next) {
 
+  /*
   let auth = true;
   if (req.user.id !== Number(req.params.id) && req.user.Role.name !== 'dev') {
     auth = false;
@@ -127,7 +128,7 @@ router.post('/avatar/:id', async function (req, res, next) {
   }
   if (!auth) {
     return res.status(403).json("Access denied");
-  }
+  }*/
 
   try {
     const id = req.params.id;

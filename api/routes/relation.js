@@ -53,6 +53,7 @@ router.post('/', isHR, async function (req, res, next) {
       id: captain_id
     }
   });
+  
   if (associateCompany.company_id !== mentorCompany.company_id || associateCompany.company_id !== captainCompany.company_id) {
     return res.status(400).json("Users are not from the same company");
   }

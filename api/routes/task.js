@@ -57,9 +57,10 @@ router.get('/group/:id', async (req, res, next) => {
   const company = req.params.id;
 
   // Verify if the user can get the company
+  /*
   if (req.user.dataValues.role !== 'dev' && req.user.dataValues.company_id !== company) {
     return res.status(401).json("Access denied");
-  }
+  }*/
 
   // Get the group tasks of the company
   try {
@@ -81,9 +82,10 @@ router.get('/group/scores/:id', async (req, res, next) => {
   const id = req.params.id;
 
   // Verify if the user can get the scores
+  /*
   if (req.user.dataValues.role !== 'dev' && req.user.dataValues.company_id !== id) {
     return res.status(401).json("Access denied");
-  }
+  }*/
 
   // Get the group tasks scores of the user
   try {

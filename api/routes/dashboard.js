@@ -11,10 +11,6 @@ router.use(authenticationMiddleware);
 router.get('/:id', async function (req, res, next) {
 
   const id = req.params.id;
-  
-  if (req.user.dataValues.role !== 'dev' && req.user.dataValues.company_id !== id) {
-    return res.status(401).json("Access denied");
-  }
 
   const user = await getUserData(id);
   const relations = await getRelationsOfUser(user.id);

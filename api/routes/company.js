@@ -14,6 +14,7 @@ router.get('/', isAdmin, async function (req, res, next) {
   const companies = await Company.findAll({
     order: [['name', 'ASC']],
   });
+  
   res.json(companies);
 
 });
@@ -23,9 +24,11 @@ router.get('/:id', async function (req, res, next) {
 
   const id = req.params.id;
 
+  /*
   if (req.user.dataValues.role !== 'dev' && req.user.dataValues.company_id !== id) {
     return res.status(401).json("Access denied");
   }
+  */
 
   const company = await Company.findByPk(id, {
     include: [{ model: User }]
@@ -60,9 +63,10 @@ router.post('/avatar/:id', async function (req, res, next) {
   try {
     const id = req.params.id;
 
+    /*
     if (req.user.dataValues.role !== 'dev' && (req.user.dataValues.company_id !== id && req.user.dataValues.role !== 'hr')) {
       return res.status(401).json("Access denied");
-    }
+    }*/
 
     const company = await Company.findByPk(id);
 

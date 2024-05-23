@@ -48,6 +48,7 @@ Task.belongsTo(GroupTask, { foreignKey: 'group_task_id' });
 GroupTask.hasMany(Task, { foreignKey: 'group_task_id' });
 GroupTask.belongsTo(Company, { foreignKey: 'company_id' });
 
+
 //Sync
 const roleData = [
     {
@@ -194,6 +195,22 @@ const groupTasks = [
     {
         name: "Premier trimestre",
         company_id: 1,
+    },
+    {
+        name: "Premier jour",
+        company_id: 2,
+    },
+    {
+        name: "Première semaine",
+        company_id: 2,
+    },
+    {
+        name: "Premier mois",
+        company_id: 2,
+    },
+    {
+        name: "Premier trimestre",
+        company_id: 2,
     },
 ]
 const tasks = [

@@ -21,7 +21,6 @@ async function getAllTasksOfUser(id) {
                     ]
                 }
             ],
-            
             order: [
                 [TaskToRelation, 'due_date', 'ASC']
             ]
@@ -62,9 +61,7 @@ async function getGroupTasksScoresOfUser(id) {
                                 {
                                     model: Relation,
                                     where: {
-                                        [Op.or]: [
-                                            { associate_id: id },
-                                        ]
+                                        associate_id: id
                                     }
                                 }
                             ]
@@ -72,13 +69,13 @@ async function getGroupTasksScoresOfUser(id) {
                     ]
                 }
             ],
-            /*
-            order: [
-                [TaskToRelation, 'due_date', 'ASC']
-            ]*/
+            where: {
+                '$Tasks.TaskToRelations.Relation.associate_id$': id
+            }
         });
-        //console.log(groupTasks);
+        
         groupTasks = groupTasks.filter(groupTask => groupTask.Tasks && groupTask.Tasks.length > 0);
+        console.log('grouptask', groupTasks);
 
         if (!groupTasks) {
             return false;
@@ -93,12 +90,12 @@ async function getGroupTasksScoresOfUser(id) {
             });
             for (let task of groupTask.Tasks) {
                 //console.log(task.TaskToRelations[0]);
-                if (task.TaskToRelations[0].done_date != null) {
+                if (task?.TaskToRelations?.[0]?.done_date) {
                     scores[scores.length - 1].done_tasks++;
                 }
             }
         }
-        //console.log(scores);
+        console.log(scores);
         return scores;
 
     } catch (error) {
